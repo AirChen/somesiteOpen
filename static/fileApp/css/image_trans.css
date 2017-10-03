@@ -5,3 +5,15 @@ border-radius:50% ;
 margin:20px auto;
 cursor: pointer;
 }
+.pass-portrait-openimg {
+	position: relative;
+}
+.pass-portrait-file {
+	height: 100%;
+	opacity: 0;
+	filter: alpha(opacity=0);
+  position:absolute;
+  left: 0px;
+  top: 0px;
+	width: 100%;
+}
