@@ -2,41 +2,21 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from versatileimagefield.fields import VersatileImageField, PPOIField
-from versatileimagefield.placeholder import OnStoragePlaceholderImage
+from pygments.lexers import get_all_lexers
+from pygments.styles import get_all_styles
 
-class ImageExampleModel(models.Model):
-    name = models.CharField(
-        'Name',
-        max_length=80
-    )
-    image = VersatileImageField(
-        'Image',
-        upload_to='images/testimagemodel/',
-        width_field='width',
-        height_field='height',
-        ppoi_field='ppoi'
-    )
-    height = models.PositiveIntegerField(
-        'Image Height',
-        blank=True,
-        null=True
-    )
-    width = models.PositiveIntegerField(
-        'Image Width',
-        blank=True,
-        null=True
-    )
-    optional_image = VersatileImageField(
-        'Optional Image',
-        upload_to='images/testimagemodel/optional/',
-        blank=True,
-        placeholder_image=OnStoragePlaceholderImage(
-            path='images/bear.jpg'
-        )
-    )
-    ppoi = PPOIField()
+LEXERS = [item for item in get_all_lexers() if item[1]]
+LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
+STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
+
+
+class Snippet(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100, blank=True, default='')
+    code = models.TextField()
+    linenos = models.BooleanField(default=False)
+    language = models.CharField(choices=LANGUAGE_CHOICES, default='python', max_length=100)
+    style = models.CharField(choices=STYLE_CHOICES, default='friendly', max_length=100)
 
     class Meta:
-        verbose_name = 'Image Example'
-        verbose_name_plural = 'Image Examples'
+        ordering = ('created',)

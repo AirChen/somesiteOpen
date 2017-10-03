@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^file/', include('fileApp.urls')),
 
     url(r'^staticfiles/(?P<path>.*)$',serve,{'document_root':settings.STATIC_URL}),
+
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
