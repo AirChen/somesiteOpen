@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from models import Snippet
-from serializers import SnippetSerializer
+from serializers import SnippetSerializer, UserSerializer
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -20,6 +20,17 @@ from rest_framework import permissions
 
 from rest_framework.views import APIView
 from rest_framework import generics
+
+from django.contrib.auth.models import User
+from permissions import IsOwnerOrReadOnly
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 # @csrf_exempt
 # def snippet_list(request):
@@ -77,6 +88,10 @@ from rest_framework import generics
 class SnippetList(generics.ListCreateAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 # @csrf_exempt
 # def snippet_detail(request, pk):
@@ -162,7 +177,7 @@ class SnippetList(generics.ListCreateAPIView):
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
-
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
 # @csrf_exempt
 # def upload_file(request):
 #     if request.method == 'POST':
