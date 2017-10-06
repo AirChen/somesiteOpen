@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
 from rest_framework import serializers
 from .models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES, ImageItem
 
 from django.contrib.auth.models import User
 
+from StringIO import StringIO
+from PIL import Image
 #https://stackoverflow.com/questions/28036404/django-rest-framework-upload-image-the-submitted-data-was-not-a-file
 class Base64ImageField(serializers.ImageField):
     """
@@ -40,6 +43,13 @@ class Base64ImageField(serializers.ImageField):
             file_extension = self.get_file_extension(file_name, decoded_file)
 
             complete_file_name = "%s.%s" % (file_name, file_extension, )
+
+            sbuf = StringIO()
+            sbuf.write(decoded_file)
+            pimg = Image.open(sbuf)
+            print pimg
+
+#https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 
             data = ContentFile(decoded_file, name=complete_file_name)
 
