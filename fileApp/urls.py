@@ -18,6 +18,9 @@ urlpatterns = [
     url(r'^users/$', views.UserList.as_view()),
     url(r'^users/(?P<pk>[0-9]+)$', views.UserDetail.as_view()),
 
+    url(r'^images/$', views.ImageItemsList.as_view()),
+    url(r'^images/(?P<pk>[0-9]+)$', views.ImageItemsDetail.as_view()),
+
     # url(r'^', include(router.urls)),
 ]
 

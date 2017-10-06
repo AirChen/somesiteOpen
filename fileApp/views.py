@@ -10,8 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from models import Snippet
-from serializers import SnippetSerializer, UserSerializer
+from models import Snippet, ImageItem
+from serializers import SnippetSerializer, UserSerializer, ImageItemSerializer
 
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -31,6 +31,16 @@ class UserList(generics.ListAPIView):
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class ImageItemsList(generics.ListCreateAPIView):
+    queryset = ImageItem.objects.all()
+    serializer_class = ImageItemSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+class ImageItemsDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ImageItem.objects.all()
+    serializer_class = ImageItemSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 # @csrf_exempt
 # def snippet_list(request):
