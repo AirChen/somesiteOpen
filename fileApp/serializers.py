@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 from StringIO import StringIO
 from PIL import Image
+import io
 #https://stackoverflow.com/questions/28036404/django-rest-framework-upload-image-the-submitted-data-was-not-a-file
 class Base64ImageField(serializers.ImageField):
     """
@@ -47,9 +48,22 @@ class Base64ImageField(serializers.ImageField):
             sbuf = StringIO()
             sbuf.write(decoded_file)
             pimg = Image.open(sbuf)
-            print pimg
 
-#https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
+            print pimg.size
+    #https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
+
+            #需要还原data
+            #https://stackoverflow.com/questions/46618746/how-to-transform-pil-image-object-to-buffer-string
+            cimage = StringIO()
+            pimg.seek(0)
+            pimg.save(cimage,'jpeg')
+            contents = cimage.getvalue()
+            if contents == decoded_file:
+                print '1------->> ok!'
+
+            contents = pimg.tobytes()
+            if contents == decoded_file:
+                print '2------->> ok!'
 
             data = ContentFile(decoded_file, name=complete_file_name)
 
