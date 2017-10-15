@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 
 from StringIO import StringIO
 from PIL import Image
+#上级目录
+import sys
+sys.path.append("..")
+from imgDeal.basical import ACTransform
 #https://stackoverflow.com/questions/28036404/django-rest-framework-upload-image-the-submitted-data-was-not-a-file
 class Base64ImageField(serializers.ImageField):
     """
@@ -47,7 +51,10 @@ class Base64ImageField(serializers.ImageField):
             sbuf = StringIO()
             sbuf.write(decoded_file)
             pimg = Image.open(sbuf)
-            pimg.save('static/fileApp/files/%s'%complete_file_name)
+            #pimg.save('static/fileApp/files/%s'%complete_file_name)
+
+            imgP = ACTransform(pimg)
+            pimg = imgP.roll(120)
 
             print pimg.size
             print pimg.mode

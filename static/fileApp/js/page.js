@@ -1,5 +1,4 @@
-var rate=1;
-        //图片上传预览    IE是用了滤镜。
+//图片上传预览    IE是用了滤镜。
 function previewImage(file)
 {
   var MAXWIDTH  = 0;
@@ -34,7 +33,6 @@ function previewImage(file)
     status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
     div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
   }
-
 }
 function clacImgZoomParam( maxWidth, maxHeight, width, height ){
     var param = {top:0, left:0, width:width, height:height};
@@ -87,7 +85,12 @@ function transFile(){
   {
     if (xmlhttp.readyState==4 && xmlhttp.status==201)
     {
-      alert('post sucess!');
+      //json解析
+      var json_obj = JSON.parse(xmlhttp.responseText);
+      var img_url = json_obj.img
+
+      var trans_url = img_url.replace('file/images/static', 'staticfiles');
+      fileDiv.src = trans_url
     }
   }
   xmlhttp.open('post','/file/images/',true);
