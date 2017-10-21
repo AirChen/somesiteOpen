@@ -94,6 +94,11 @@ function transFile(){
     }
   }
   xmlhttp.open('post','/file/images/',true);
-  xmlhttp.setRequestHeader('Authorization', 'Basic YWlyOjEzOTA4NDA3ODQ5YQ==');
+
+  // django createsuperuser
+  var user = 'airchen'
+  var psd = 'airair123'
+  $.base64.utf8encode = true;
+  xmlhttp.setRequestHeader('Authorization', 'Basic ' + $.base64.btoa(user + ":" + psd));
   xmlhttp.send(formData);
 }

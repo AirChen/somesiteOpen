@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'fileApp.apps.FileappConfig',
+    'main.apps.MainConfig',
     'bootstrap3',
     'rest_framework',
 ]

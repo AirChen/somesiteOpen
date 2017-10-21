@@ -20,10 +20,8 @@ from django.views.static import serve
 from . import settings
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    #url(r'^admin/', admin.site.urls),
+    url(r'^main/', include('main.urls')),
     url(r'^file/', include('fileApp.urls')),
-
     url(r'^staticfiles/(?P<path>.*)$',serve,{'document_root':settings.STATIC_URL}),
-
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
