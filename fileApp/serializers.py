@@ -9,7 +9,7 @@ from PIL import Image
 #上级目录
 import sys
 sys.path.append("..")
-from imgDeal.basical import ACTransform
+from imgProcess.basical import ACTransform
 #https://stackoverflow.com/questions/28036404/django-rest-framework-upload-image-the-submitted-data-was-not-a-file
 class Base64ImageField(serializers.ImageField):
     """
