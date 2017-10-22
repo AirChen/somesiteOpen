@@ -42,4 +42,4 @@ Step 3:inital django
 
 ![](./superuser.png)
 
-2.the image processing part is in other repositorie.
+2.the image processing part is in other [repositorie](https://github.com/AirChen/imgProcess).

@@ -25,8 +25,8 @@ class Base64ImageField(serializers.ImageField):
 
     Updated for Django REST framework 3.
     """
-    def __init__(self,protype,**kwargs):
-        self.protype = protype
+    def __init__(self,imgproc,**kwargs):
+        self.imgproc = imgproc
         super(Base64ImageField, self).__init__(**kwargs)
 
     def to_internal_value(self, data):
@@ -56,10 +56,8 @@ class Base64ImageField(serializers.ImageField):
             #是否保存原图
             #pimg.save('static/fileApp/files/%s'%complete_file_name)
 
-            #作为判断标志位
-            print self.protype
-            imgP = ACTransform(pimg)
-            pimg = imgP.roll(120)
+            #lambda表达式，图像处理的调用，外部实现
+            pimg = self.imgproc(pimg)
 
     #https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
 
@@ -83,7 +81,7 @@ class Base64ImageField(serializers.ImageField):
 
 class ImageItemSerializer(serializers.HyperlinkedModelSerializer):
     img = Base64ImageField(
-        protype='平移',max_length=None, use_url=True,
+        imgproc=lambda img:ACTransform(img).roll(220),max_length=None, use_url=True,
     )
     class Meta:
         model = ImageItem
