@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageFilter, ImageEnhance, PSDraw
 
+from skimage.filters import roberts, sobel, scharr, prewitt
+import numpy as np
+import png
+from matplotlib.pyplot import cm
+
 class ACTransform(object):
     """docstring for transform."""
     def __init__(self, img):
@@ -60,6 +65,19 @@ class ACTransform(object):
     def enhance(self, delta):
         enh = ImageEnhance.Contrast(self.img)
         self.img = enh.enhance(delta)
+        print type(self.img)
+
+        return self
+
+    ###
+    #image = Image.open(“ponzo.jpg”)   # image is a PIL image
+    #array = numpy.array(image)          # array is a numpy array
+    #image2 = Image.fromarray(array)   # image2 is a PIL image
+    def ski_filter(self):
+        im = list(self.img.getdata())
+        robert_edge = roberts(im)
+        im = Image.fromarray(cm.gist_earth(robert_edge, bytes=True))
+        self.img = Image.new("RGB", im.size, (255,255,255))
 
         return self
 

@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import LANGUAGE_CHOICES, STYLE_CHOICES, ImageItem
 
 from StringIO import StringIO
-from PIL import Image
+from PIL import Image, ImageFile
 #上级目录
 import sys
 sys.path.append("..")
@@ -81,7 +81,7 @@ class Base64ImageField(serializers.ImageField):
 
 class ImageItemSerializer(serializers.HyperlinkedModelSerializer):
     img = Base64ImageField(
-        imgproc=lambda img:ACTransform(img).enhance(1.3).toImage(),max_length=None, use_url=True,
+        imgproc=lambda img:ACTransform(img).ski_filter().toImage(),max_length=None, use_url=True,
     )
     class Meta:
         model = ImageItem
