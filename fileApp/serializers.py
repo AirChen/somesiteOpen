@@ -81,7 +81,7 @@ class Base64ImageField(serializers.ImageField):
 
 class ImageItemSerializer(serializers.HyperlinkedModelSerializer):
     img = Base64ImageField(
-        imgproc=lambda img:ACTransform(img).roll(220),max_length=None, use_url=True,
+        imgproc=lambda img:ACTransform(img).enhance(1.3).toImage(),max_length=None, use_url=True,
     )
     class Meta:
         model = ImageItem
